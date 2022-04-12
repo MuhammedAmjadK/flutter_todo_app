@@ -11,6 +11,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getAllTask();
     return Scaffold(
       appBar: AppBar(
         title: const Text("My Tasks"),
@@ -24,6 +25,7 @@ class HomeScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final task = taskList[index];
                 return TaskTile(
+                    id: task.id,
                     date: task.date,
                     title: task.title,
                     category: task.category);

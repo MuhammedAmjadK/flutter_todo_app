@@ -8,93 +8,102 @@ class TaskTile extends StatelessWidget {
       {Key? key,
       required this.date,
       required this.title,
-      required this.category})
+      required this.category,
+      required this.id})
       : super(key: key);
-
+  final int? id;
   final DateTime date;
   final String title;
   final String category;
 
   @override
   Widget build(BuildContext context) {
-    return Slidable(
-      actionPane: const SlidableDrawerActionPane(),
-      actionExtentRatio: 0.2,
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 80,
-        margin: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 2,
-              color: Colors.grey.shade500,
-            ),
-          ],
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: CircleAvatar(
-                radius: 30,
-                child: Text(
-                  "${date.day}/${date.month}",
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                backgroundColor: primaryColor,
+    return GestureDetector(
+      onTap: () {},
+      child: Slidable(
+        actionPane: const SlidableDrawerActionPane(),
+        actionExtentRatio: 0.2,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: 80,
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 2,
+                color: Colors.grey.shade500,
               ),
-            ),
-            Expanded(
-              flex: 3,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Container(
-                        padding: const EdgeInsets.only(left: 10),
-                        // color: Colors.green,
-                        alignment: Alignment.bottomLeft,
-                        child: TaskTileText(
-                          text: title,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 10),
-                      // color: Colors.red,
-                      alignment: Alignment.centerLeft,
-                      child: TaskTileText(
-                        text: category,
-                        color: Colors.blueGrey,
-                      ),
+            ],
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: CircleAvatar(
+                  radius: 30,
+                  child: Text(
+                    "${date.day}/${date.month}",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ],
+                  backgroundColor: primaryColor,
+                ),
               ),
-            ),
-          ],
+              Expanded(
+                flex: 3,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Container(
+                          padding: const EdgeInsets.only(left: 10),
+                          // color: Colors.green,
+                          alignment: Alignment.bottomLeft,
+                          child: TaskTileText(
+                            text: title,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 10),
+                        // color: Colors.red,
+                        alignment: Alignment.centerLeft,
+                        child: TaskTileText(
+                          text: category,
+                          color: Colors.blueGrey,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
+        actions: [
+          TaskTileActions(
+            color: Colors.lightBlue.shade100,
+            icon: Icons.star_border,
+            onTap: () {},
+          ),
+        ],
+        secondaryActions: [
+          TaskTileActions(
+            color: Colors.red,
+            icon: Icons.delete,
+            onTap: () {
+              if (id == null) {
+              } else {
+                deleteTask(id!);
+              }
+            },
+          ),
+        ],
       ),
-      actions: [
-        TaskTileActions(
-          color: Colors.lightBlue.shade100,
-          icon: Icons.star_border,
-          onTap: () {},
-        ),
-      ],
-      secondaryActions: [
-        TaskTileActions(
-          color: Colors.red,
-          icon: Icons.delete,
-          onTap: () {},
-        ),
-      ],
     );
   }
 }

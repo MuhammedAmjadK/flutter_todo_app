@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_app/DB/Model/task_model.dart';
 import 'package:flutter_todo_app/Screens/home_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+
+  if (!Hive.isAdapterRegistered(TaskModelAdapter().typeId)) {
+    Hive.registerAdapter(TaskModelAdapter());
+  }
+
   runApp(const MyApp());
 }
 

@@ -1,17 +1,30 @@
-// ignore_for_file: invalid_use_of_visible_for_testing_member
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_todo_app/DB/Model/task_model.dart';
+import 'package:hive_flutter/adapters.dart';
 
 ValueNotifier<List<TaskModel>> taskListNotifier = ValueNotifier([]);
 
-void addTask(TaskModel task) {
+Future addTask(TaskModel task) async {
+  final taskDB = await Hive.openBox<TaskModel>('task_db');
+  final id = await taskDB.add(task);
+  task.id = id;
+  taskDB.put(task.id, task);
   taskListNotifier.value.add(task);
   refreshUI();
 }
 
-void deleteTask(TaskModel task) {
-  taskListNotifier.value.remove(task);
+Future<void> deleteTask(int id) async {
+  final taskDB = await Hive.openBox<TaskModel>('task_db');
+  await taskDB.delete(id);
+  // taskListNotifier.value.removeWhere((element) => element.id == id);
+  // refreshUI();
+  getAllTask();
+}
+
+Future<void> getAllTask() async {
+  final taskDB = await Hive.openBox<TaskModel>('task_db');
+  taskListNotifier.value.clear();
+  taskListNotifier.value.addAll(taskDB.values);
   refreshUI();
 }
 
