@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_app/DB/Model/subtask_model.dart';
 import 'package:flutter_todo_app/DB/Model/task_model.dart';
 import 'package:flutter_todo_app/Screens/home_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -9,6 +10,9 @@ Future<void> main() async {
 
   if (!Hive.isAdapterRegistered(TaskModelAdapter().typeId)) {
     Hive.registerAdapter(TaskModelAdapter());
+  }
+  if (!Hive.isAdapterRegistered(SubTaskModelAdapter().typeId)) {
+    Hive.registerAdapter(SubTaskModelAdapter());
   }
 
   runApp(const MyApp());

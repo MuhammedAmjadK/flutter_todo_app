@@ -16,8 +16,9 @@ Future addTask(TaskModel task) async {
 Future<void> deleteTask(int id) async {
   final taskDB = await Hive.openBox<TaskModel>('task_db');
   await taskDB.delete(id);
-  // taskListNotifier.value.removeWhere((element) => element.id == id);
-  // refreshUI();
+
+  await Hive.deleteBoxFromDisk('$id');
+
   getAllTask();
 }
 

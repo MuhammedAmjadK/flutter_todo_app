@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/Colors/colors.dart';
-import 'package:flutter_todo_app/DB/DB%20Functions/db_functions.dart';
+import 'package:flutter_todo_app/DB/DB%20Functions/task_db_functions.dart';
 import 'package:flutter_todo_app/DB/Model/task_model.dart';
 import 'package:flutter_todo_app/Functions/create_task.dart';
 import 'package:flutter_todo_app/Parameters/common_parameters.dart';
@@ -23,12 +23,9 @@ class HomeScreen extends StatelessWidget {
           builder: (BuildContext ctx, List<TaskModel> taskList, _) {
             return ListView.builder(
               itemBuilder: (context, index) {
-                final task = taskList[index];
                 return TaskTile(
-                    id: task.id,
-                    date: task.date,
-                    title: task.title,
-                    category: task.category);
+                  task: taskList[index],
+                );
               },
               itemCount: taskList.length,
             );

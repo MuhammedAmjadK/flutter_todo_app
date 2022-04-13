@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/Colors/colors.dart';
-import 'package:flutter_todo_app/DB/DB%20Functions/db_functions.dart';
+import 'package:flutter_todo_app/DB/DB%20Functions/task_db_functions.dart';
+import 'package:flutter_todo_app/DB/Model/subtask_model.dart';
 import 'package:flutter_todo_app/DB/Model/task_model.dart';
 import 'package:flutter_todo_app/Parameters/common_parameters.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +27,17 @@ void createTask(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
+                SizedBox(
+                  height: 30,
+                  child: Text(
+                    "Add Task",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: primaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 Form(
                   key: formKey,
                   child: TextFormField(
@@ -118,9 +130,10 @@ void createTask(BuildContext context) {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         TaskModel task = TaskModel(
-                            date: selectedDate,
-                            title: _controller.text,
-                            category: selectedCategory ?? "Do Soon");
+                          date: selectedDate,
+                          title: _controller.text,
+                          category: selectedCategory ?? "Do Soon",
+                        );
 
                         addTask(task);
                         Navigator.pop(ctx);

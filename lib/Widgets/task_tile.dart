@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_todo_app/Colors/colors.dart';
-import 'package:flutter_todo_app/DB/DB%20Functions/db_functions.dart';
+import 'package:flutter_todo_app/DB/DB%20Functions/task_db_functions.dart';
+import 'package:flutter_todo_app/DB/Model/task_model.dart';
+import 'package:flutter_todo_app/Screens/task_screen.dart';
 
 class TaskTile extends StatelessWidget {
-  const TaskTile(
-      {Key? key,
-      required this.date,
-      required this.title,
-      required this.category,
-      required this.id})
-      : super(key: key);
-  final int? id;
-  final DateTime date;
-  final String title;
-  final String category;
+  const TaskTile({Key? key, required this.task}) : super(key: key);
+
+  final TaskModel task;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TaskScreen(
+                task: task,
+              ),
+            ));
+      },
       child: Slidable(
         actionPane: const SlidableDrawerActionPane(),
         actionExtentRatio: 0.2,
@@ -43,7 +45,7 @@ class TaskTile extends StatelessWidget {
                 child: CircleAvatar(
                   radius: 30,
                   child: Text(
-                    "${date.day}/${date.month}",
+                    "${task.date.day}/${task.date.month}",
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -59,10 +61,9 @@ class TaskTile extends StatelessWidget {
                     Expanded(
                       child: Container(
                           padding: const EdgeInsets.only(left: 10),
-                          // color: Colors.green,
                           alignment: Alignment.bottomLeft,
                           child: TaskTileText(
-                            text: title,
+                            text: task.title,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           )),
@@ -70,10 +71,9 @@ class TaskTile extends StatelessWidget {
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.only(left: 10),
-                        // color: Colors.red,
                         alignment: Alignment.centerLeft,
                         child: TaskTileText(
-                          text: category,
+                          text: task.category,
                           color: Colors.blueGrey,
                         ),
                       ),
@@ -96,9 +96,9 @@ class TaskTile extends StatelessWidget {
             color: Colors.red,
             icon: Icons.delete,
             onTap: () {
-              if (id == null) {
+              if (task.id == null) {
               } else {
-                deleteTask(id!);
+                deleteTask(task.id!);
               }
             },
           ),
