@@ -1,16 +1,25 @@
-# flutter_todo_app
+# Flutter ToDo App
 
-A new Flutter project.
+A simple ToDo App made with Flutter and Hive.
 
-## Getting Started
+<br>
+<br>
 
-This project is a starting point for a Flutter application.
+## ✨ Features
+- Create,Delete,Update tasks.
+- Create Subtasks.
+- Star important Tasks.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## 📸 ScreenShots
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Light| Dark|
+|------|-------|
+|<img src="assets\images\home screen.png" width="400">|<img src="assets\images\task screen.png" width="400">|
+
+## 🔌 Plugins
+| Name | Usage |
+|------|-------|
+|[**flutter_slidable**](https://pub.dev/packages/flutter_slidable)| slide list item with directional slide actions that can be dismissed.|
+|[**intl**](https://pub.dev/packages/intl)| Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues.|
+|[**hive_flutter**](https://pub.dev/packages/hive_flutter)| Lightweight and blazing fast key-value database|

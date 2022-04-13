@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_todo_app/DB/Model/task_model.dart';
-import 'package:flutter_todo_app/Functions/sort-task.dart';
+import 'package:flutter_todo_app/Functions/sort_task.dart';
 import 'package:hive_flutter/adapters.dart';
 
 ValueNotifier<List<TaskModel>> pendingTaskListNotifier = ValueNotifier([]);
