@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_todo_app/DB/Model/task_model.dart';
+import 'package:flutter_todo_app/Functions/sort-task.dart';
 import 'package:hive_flutter/adapters.dart';
 
 ValueNotifier<List<TaskModel>> pendingTaskListNotifier = ValueNotifier([]);
@@ -12,6 +13,7 @@ Future addTask(TaskModel task) async {
   task.id = id;
   taskDB.put(task.id, task);
   pendingTaskListNotifier.value.add(task);
+  sortTask(pendingTaskListNotifier.value);
   refreshUI();
 }
 
@@ -47,6 +49,9 @@ Future<void> getAllTask() async {
       pendingTaskListNotifier.value.add(_task);
     }
   }
+  sortTask(pendingTaskListNotifier.value);
+  sortTask(starredTaskListNotifier.value);
+  sortTask(completedTaskListNotifier.value);
   refreshUI();
 }
 
