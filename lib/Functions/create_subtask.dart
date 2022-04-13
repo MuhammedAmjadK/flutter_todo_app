@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/Colors/colors.dart';
 import 'package:flutter_todo_app/DB/DB%20Functions/subtask_db_functios.dart';
-import 'package:flutter_todo_app/DB/DB%20Functions/task_db_functions.dart';
 import 'package:flutter_todo_app/DB/Model/subtask_model.dart';
 import 'package:flutter_todo_app/DB/Model/task_model.dart';
 
@@ -88,7 +87,7 @@ void createSubTask(BuildContext context, TaskModel task) {
                     child: const Text(
                       "Save",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: backgroundColor,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),

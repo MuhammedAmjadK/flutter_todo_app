@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
 
 Color primaryColor = Colors.lightBlue.shade300;
-Color textColor = Colors.blueGrey;
+const Color textColor = Colors.blueGrey;
+const Color backgroundColor = Colors.white;

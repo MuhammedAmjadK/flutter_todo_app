@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/Colors/colors.dart';
 import 'package:flutter_todo_app/DB/DB%20Functions/subtask_db_functios.dart';
+import 'package:flutter_todo_app/DB/DB%20Functions/task_db_functions.dart';
 import 'package:flutter_todo_app/DB/Model/subtask_model.dart';
 import 'package:flutter_todo_app/DB/Model/task_model.dart';
 import 'package:flutter_todo_app/Functions/create_subtask.dart';
@@ -36,7 +37,7 @@ class TaskScreen extends StatelessWidget {
                         child: Text(
                           "  ${task.category}",
                           style: const TextStyle(
-                            color: Colors.blueGrey,
+                            color: textColor,
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
                           ),
@@ -49,7 +50,7 @@ class TaskScreen extends StatelessWidget {
                         child: Text(
                           "  ${DateFormat('dd-MM-yyyy').format(task.date)}",
                           style: const TextStyle(
-                            color: Colors.blueGrey,
+                            color: textColor,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
@@ -61,24 +62,31 @@ class TaskScreen extends StatelessWidget {
                 SizedBox(
                   width: 100,
                   height: 80,
-                  child: TextButton(
-                    onPressed: () {
-                      createSubTask(context, task);
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [
-                        Icon(
-                          Icons.add,
-                          size: 30,
+                  child: !task.isCompleted
+                      ? TextButton(
+                          onPressed: () {
+                            createSubTask(context, task);
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: const [
+                              Icon(
+                                Icons.add,
+                                size: 30,
+                              ),
+                              Text(
+                                "Add Subtasks",
+                                style: TextStyle(fontSize: 13),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const Center(
+                          child: Text(
+                            "Completed",
+                            style: TextStyle(fontSize: 16, color: Colors.green),
+                          ),
                         ),
-                        Text(
-                          "Add Subtasks",
-                          style: TextStyle(fontSize: 13),
-                        ),
-                      ],
-                    ),
-                  ),
                 )
               ],
             ),
@@ -128,28 +136,34 @@ class _SubTaskTileState extends State<SubTaskTile> {
       decoration: BoxDecoration(
         border: Border.all(
           width: 2,
-          color: widget.subTask.isCompleted ? Colors.green : primaryColor,
+          color: widget.task.isCompleted || widget.subTask.isCompleted
+              ? Colors.green
+              : primaryColor,
         ),
       ),
       child: ListTile(
         leading: Checkbox(
-          value: widget.subTask.isCompleted,
+          value: widget.task.isCompleted || widget.subTask.isCompleted,
           onChanged: (value) {
             setState(() {
               widget.subTask.isCompleted = value!;
             });
-
+            if (widget.task.isCompleted) {
+              widget.task.isCompleted = false;
+              updateTask(widget.task);
+            }
             updateSubTask(widget.task, widget.subTask, value!);
           },
         ),
         title: Text(
           widget.subTask.title,
           style: TextStyle(
-            color: Colors.blueGrey,
+            color: textColor,
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            decoration:
-                widget.subTask.isCompleted ? TextDecoration.lineThrough : null,
+            decoration: widget.task.isCompleted || widget.subTask.isCompleted
+                ? TextDecoration.lineThrough
+                : null,
             decorationColor: Colors.green,
             decorationThickness: 2,
           ),
@@ -158,11 +172,12 @@ class _SubTaskTileState extends State<SubTaskTile> {
             ? Text(
                 widget.subTask.detail!,
                 style: TextStyle(
-                  color: Colors.blueGrey,
+                  color: textColor,
                   fontSize: 12,
-                  decoration: widget.subTask.isCompleted
-                      ? TextDecoration.lineThrough
-                      : null,
+                  decoration:
+                      widget.task.isCompleted || widget.subTask.isCompleted
+                          ? TextDecoration.lineThrough
+                          : null,
                   decorationColor: Colors.green,
                   decorationThickness: 2,
                 ),

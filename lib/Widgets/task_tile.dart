@@ -30,7 +30,7 @@ class TaskTile extends StatelessWidget {
           height: 80,
           margin: const EdgeInsets.all(5),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: backgroundColor,
             boxShadow: [
               BoxShadow(
                 blurRadius: 2,
@@ -47,7 +47,7 @@ class TaskTile extends StatelessWidget {
                   child: Text(
                     "${task.date.day}/${task.date.month}",
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: backgroundColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -74,7 +74,7 @@ class TaskTile extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: TaskTileText(
                           text: task.category,
-                          color: Colors.blueGrey,
+                          color: textColor,
                         ),
                       ),
                     ),
@@ -84,13 +84,28 @@ class TaskTile extends StatelessWidget {
             ],
           ),
         ),
-        actions: [
-          TaskTileActions(
-            color: Colors.lightBlue.shade100,
-            icon: Icons.star_border,
-            onTap: () {},
-          ),
-        ],
+        actions: !task.isCompleted
+            ? [
+                TaskTileActions(
+                  color: Colors.lightGreen,
+                  icon: task.isCompleted
+                      ? Icons.remove_done_rounded
+                      : Icons.checklist_rtl_sharp,
+                  onTap: () {
+                    task.isCompleted = true;
+                    updateTask(task);
+                  },
+                ),
+                TaskTileActions(
+                  color: Colors.lightBlue.shade100,
+                  icon: task.isStarred ? Icons.star : Icons.star_border,
+                  onTap: () {
+                    task.isStarred = !task.isStarred;
+                    updateTask(task);
+                  },
+                ),
+              ]
+            : [],
         secondaryActions: [
           TaskTileActions(
             color: Colors.red,
@@ -109,9 +124,12 @@ class TaskTile extends StatelessWidget {
 }
 
 class TaskTileActions extends StatelessWidget {
-  const TaskTileActions(
-      {Key? key, required this.color, required this.icon, required this.onTap})
-      : super(key: key);
+  const TaskTileActions({
+    Key? key,
+    required this.color,
+    required this.icon,
+    required this.onTap,
+  }) : super(key: key);
 
   final Color color;
   final IconData icon;
@@ -133,7 +151,10 @@ class TaskTileActions extends StatelessWidget {
           ],
           borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
-        child: Icon(icon),
+        child: Icon(
+          icon,
+          color: backgroundColor,
+        ),
       ),
       onTap: onTap,
     );
